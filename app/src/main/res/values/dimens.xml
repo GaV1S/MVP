@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="login_label_text_size">36sp</dimen>
+    <dimen name="login_page_padding">10dp</dimen>
+    <dimen name="login_page_buttons_margin">5dp</dimen>
+    <dimen name="login_page_main_text_size">24sp</dimen>
+    <dimen name="login_page_min_text_edit_height">48dp</dimen>
+    <dimen name="login_page_buttons_text_size">18sp</dimen>
+</resources>
