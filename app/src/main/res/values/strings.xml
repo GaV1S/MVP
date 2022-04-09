@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">mvp_login_activity</string>
+    <string name="app_name">MVP_Login_Activity</string>
     <string name="login_label_text">Login page</string>
     <string name="login_edit_text_hint">Login</string>
     <string name="password_edit_text_hint">Password</string>
     <string name="login_button_text">Войти</string>
     <string name="registration_button_text">Регистрация</string>
     <string name="forgot_password_button_text">Забыл пароль</string>
+    <string name="second_activity">Second Activity</string>
 </resources>

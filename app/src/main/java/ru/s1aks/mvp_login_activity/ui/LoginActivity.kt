@@ -1,19 +1,22 @@
 package ru.s1aks.mvp_login_activity.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.material.snackbar.Snackbar
-import ru.s1aks.mvp_login_activity.databinding.ActivityMainBinding
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
+import ru.s1aks.mvp_login_activity.databinding.ActivityLoginBinding
 import ru.s1aks.mvp_login_activity.domain.LoginData
+import ru.s1aks.mvp_login_activity.impl.utils.app
 
 private const val MOCK_ERROR_MESSAGE: String = "Error"
 
-@Suppress("DEPRECATION", "UNREACHABLE_CODE")
-class LoginActivity : AppCompatActivity(), Contract.View {
-    private lateinit var binding: ActivityMainBinding
-    private var presenter: Contract.Presenter = LoginPresenter()
+class LoginActivity : MvpAppCompatActivity(), Contract.View {
+    private lateinit var binding: ActivityLoginBinding
+    private val presenter by moxyPresenter { LoginPresenter(app.router) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preInit()
@@ -21,9 +24,8 @@ class LoginActivity : AppCompatActivity(), Contract.View {
     }
 
     private fun preInit() {
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        presenter.onAttach(this)
         loadState()
     }
 
@@ -32,7 +34,7 @@ class LoginActivity : AppCompatActivity(), Contract.View {
     }
 
     override fun onRetainCustomNonConfigurationInstance(): Any? {
-        return super.onRetainCustomNonConfigurationInstance()
+        super.onRetainCustomNonConfigurationInstance()
         return packLoginData()
     }
 
@@ -109,8 +111,15 @@ class LoginActivity : AppCompatActivity(), Contract.View {
         }
     }
 
-    override fun onDestroy() {
-        presenter.onDetach()
-        super.onDestroy()
+    private val navigator by lazy { AppNavigator(this, binding.root.id) }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        app.navigatorHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        app.navigatorHolder.removeNavigator()
+        super.onPause()
     }
 }
