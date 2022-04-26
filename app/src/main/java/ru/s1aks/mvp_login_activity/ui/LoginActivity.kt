@@ -9,7 +9,7 @@ import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import ru.s1aks.mvp_login_activity.databinding.ActivityLoginBinding
 import ru.s1aks.mvp_login_activity.domain.LoginData
-import ru.s1aks.mvp_login_activity.impl.utils.app
+import ru.s1aks.mvp_login_activity.data.utils.app
 
 private const val MOCK_ERROR_MESSAGE: String = "Error"
 

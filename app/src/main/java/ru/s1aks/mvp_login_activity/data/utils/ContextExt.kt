@@ -1,4 +1,4 @@
-package ru.s1aks.mvp_login_activity.impl.utils
+package ru.s1aks.mvp_login_activity.data.utils
 
 import android.content.Context
 import ru.s1aks.mvp_login_activity.App

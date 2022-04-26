@@ -43,6 +43,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     implementation "com.github.moxy-community:moxy:2.2.2"
+    implementation 'androidx.room:room-common:2.3.0'
     kapt "com.github.moxy-community:moxy-compiler:2.2.2"
     implementation "com.github.moxy-community:moxy-ktx:2.2.2"
     implementation "com.github.moxy-community:moxy-app-compat:2.2.2"
