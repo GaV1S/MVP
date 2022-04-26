@@ -11,6 +11,7 @@ import ru.s1aks.mvp_login_activity.ui.registration.RegistrationActivity
 import ru.s1aks.mvp_login_activity.ui.uiutils.hideKeyboard
 import ru.s1aks.mvp_login_activity.ui.uiutils.showSnack
 
+@Suppress("DEPRECATION")
 class LoginActivity : AppCompatActivity(), LoginActivityContract.LoginView {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var loginPresenter: LoginActivityPresenter

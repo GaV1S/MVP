@@ -9,7 +9,7 @@
     tools:context=".ui.login.LoginActivity">
 
     <TextView
-        android:id="@+id/tvRegistration"
+        android:id="@+id/registration_title_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textFieldNewLogin"
+        android:id="@+id/new_login_text_field"
         android:layout_width="@dimen/zero_value"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_16dp"
@@ -28,11 +28,11 @@
         android:hint="@string/new_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRegistration"
+        app:layout_constraintTop_toBottomOf="@id/registration_title_text_view"
         app:startIconDrawable="@drawable/ic_userface">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textEditNewLogin"
+            android:id="@+id/new_login_text_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:singleLine="true" />
@@ -48,7 +48,7 @@
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textFieldNewLogin"
+        app:layout_constraintTop_toBottomOf="@id/new_login_text_field"
         app:startIconDrawable="@drawable/ic_lock">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -60,7 +60,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textFieldRepeatPassword"
+        android:id="@+id/repeat_password_text_field"
         android:layout_width="@dimen/zero_value"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_16dp"
@@ -73,7 +73,7 @@
         app:startIconDrawable="@drawable/ic_lock">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textEditRepeatPassword"
+            android:id="@+id/repeat_password_text_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"
@@ -96,8 +96,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

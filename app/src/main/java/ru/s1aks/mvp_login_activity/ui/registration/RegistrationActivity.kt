@@ -25,7 +25,7 @@ class RegistrationActivity : AppCompatActivity(), RegistrationActivityContract.R
         registrationPresenter.onAttach(this)
 
         with(binding) {
-            textEditRepeatPassword.addTextChangedListener(object : TextWatcher {
+            repeatPasswordTextEdit.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -39,8 +39,8 @@ class RegistrationActivity : AppCompatActivity(), RegistrationActivityContract.R
 
             registrationButton.setOnClickListener {
                 registrationPresenter.onRegister(
-                    textEditNewLogin.text.toString(),
-                    textEditRepeatPassword.text.toString()
+                    newLoginTextEdit.text.toString(),
+                    repeatPasswordTextEdit.text.toString()
                 )
             }
         }
