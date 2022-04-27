@@ -23,7 +23,7 @@ class MockUserDatabaseApi(private val roomDataSource: UserDao) : IUserDatabaseAp
         }
     }
 
-    override fun logout(login: String): Int {
+    override fun logout(login: String?): Int {
         Thread.sleep(fakeDelay())
         return when (roomDataSource.getUser(login)) {
             null -> {
@@ -36,20 +36,11 @@ class MockUserDatabaseApi(private val roomDataSource: UserDao) : IUserDatabaseAp
         }
     }
 
-    override fun remindUserPassword(login: String): String {
+    override fun remindUserPassword(login: String): Any {
         Thread.sleep(fakeDelay())
-        return if (roomDataSource.getUser(login)?.userPassword == null) {
-            ApiStringResources.MESSAGE_LOGIN_NOT_REGISTERED.value
-        } else {
-            ApiStringResources
-                .MESSAGE_YOUR_PASSWORD_IS.value + roomDataSource.getUser(login)?.userPassword
-        }
+        return roomDataSource.getUser(login)?.userPassword
+            ?: ApiResponseCodes.RESPONSE_LOGIN_NOT_REGISTERED.code
     }
-}
-
-private enum class ApiStringResources(val value: String) {
-    MESSAGE_LOGIN_NOT_REGISTERED("Логин не зарегистрирован"),
-    MESSAGE_YOUR_PASSWORD_IS("Пароль: ")
 }
 
 private enum class ApiResponseCodes(val code: Int) {

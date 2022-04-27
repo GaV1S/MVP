@@ -2,43 +2,58 @@ package ru.s1aks.mvp_login_activity.ui.registration
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import ru.s1aks.mvp_login_activity.App
 import ru.s1aks.mvp_login_activity.databinding.ActivityRegistrationBinding
 import ru.s1aks.mvp_login_activity.ui.login.LoginActivity
 import ru.s1aks.mvp_login_activity.ui.utils.hideKeyboard
+import ru.s1aks.mvp_login_activity.ui.utils.setOnTextTypingListener
 import ru.s1aks.mvp_login_activity.ui.utils.showSnack
 
-class RegistrationActivity : AppCompatActivity(), RegistrationActivityContract.RegistrationView {
+class RegistrationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegistrationBinding
-    private lateinit var registrationPresenter: RegistrationActivityPresenter
+    private var registrationViewModel: RegistrationActivityViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        registrationPresenter = RegistrationActivityPresenter(App.userRegistrationInteractor)
-        registrationPresenter.onAttach(this)
+        val uiHandler = Handler(mainLooper)
+
+        registrationViewModel = restoreViewModel()
+
+        registrationViewModel?.messenger?.subscribe(uiHandler) { message ->
+            message?.let {
+                showMessage(getString(message.first, message.second))
+            }
+        }
+
+        registrationViewModel?.registrationSuccess?.subscribe(uiHandler) { login ->
+            login?.let {
+                setRegistrationSuccess(login)
+            }
+        }
+
+        registrationViewModel?.isInProgress?.subscribe(uiHandler) { isInProgress ->
+            if (isInProgress == true) {
+                showProgress()
+            } else {
+                hideProgress()
+            }
+        }
 
         with(binding) {
-            repeatPasswordTextEdit.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-                override fun afterTextChanged(enteredChars: Editable?) {
-                    if (enteredChars.toString() == passwordTextEdit.text.toString()) {
-                        registrationButton.isEnabled = true
-                    }
+            repeatPasswordTextEdit.setOnTextTypingListener { enteredChars ->
+                if (enteredChars.toString() == passwordTextEdit.text.toString()) {
+                    registrationButton.isEnabled = true
                 }
-            })
+            }
 
             registrationButton.setOnClickListener {
-                registrationPresenter.onRegister(
+                registrationViewModel?.onRegister(
                     newLoginTextEdit.text.toString(),
                     repeatPasswordTextEdit.text.toString()
                 )
@@ -46,25 +61,42 @@ class RegistrationActivity : AppCompatActivity(), RegistrationActivityContract.R
         }
     }
 
-    override fun setRegistrationSuccess(login: String) {
+    override fun onDestroy() {
+        super.onDestroy()
+        registrationViewModel?.messenger?.unsubscribeAll()
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRetainCustomNonConfigurationInstance(): Any? {
+        return registrationViewModel
+    }
+
+    private fun restoreViewModel(): RegistrationActivityViewModel {
+        val registrationViewModel =
+            lastCustomNonConfigurationInstance as? RegistrationActivityViewModel
+        return registrationViewModel
+            ?: RegistrationActivityViewModel(App.userRegistrationInteractor)
+    }
+
+    private fun setRegistrationSuccess(login: String) {
         startActivity(Intent(this, LoginActivity::class.java).apply {
             putExtra(LoginActivity.EXTRA_LOGIN_REGISTRATION_SUCCESS, login)
         })
         finish()
     }
 
-    override fun setRegistrationError(error: String) {
-        binding.root.showSnack(error)
+    private fun showMessage(message: String) {
+        binding.root.showSnack(message)
     }
 
-    override fun showProgress() {
+    private fun showProgress() {
         binding.progressBar.apply {
             isVisible = true
             hideKeyboard()
         }
     }
 
-    override fun hideProgress() {
+    private fun hideProgress() {
         binding.progressBar.isVisible = false
     }
 }

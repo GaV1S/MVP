@@ -15,7 +15,7 @@ import ru.s1aks.mvp_login_activity.ui.utils.showSnack
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private var loginViewModel: LoginActivityContract.LoginViewModel? = null
+    private var loginViewModel: LoginViewModelContract? = null
     private val uiHandler: Handler by lazy { Handler(mainLooper) }
 
     companion object {
@@ -68,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel?.messenger?.subscribe(uiHandler) { message ->
             message?.let {
-                showMessage(message)
+                showMessage(getString(message.first, message.second))
             }
         }
 
@@ -152,7 +152,7 @@ class LoginActivity : AppCompatActivity() {
 
                 saveChangesAdminButton.setOnClickListener {
                     loginViewModel?.onUpdateUser(
-                        userIdAdminTextView.text.toString().toInt(),
+                        userIdAdminTextView.text.toString(),
                         newLoginAdminTextEdit.text.toString(),
                         newPasswordAdminTextEdit.text.toString()
                     )

@@ -12,7 +12,7 @@ class MockUserLoginInteractor(
         }.start()
     }
 
-    override fun logout(login: String, callback: (Int) -> Unit) {
+    override fun logout(login: String?, callback: (Int) -> Unit) {
         Thread {
             callback(userDataBaseApi.logout(login))
         }.start()

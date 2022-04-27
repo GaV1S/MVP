@@ -11,7 +11,7 @@ interface UserDao {
     fun createUser(entity: UserEntity)
 
     @Query("SELECT * FROM UserEntity WHERE userLogin =:login")
-    fun getUser(login: String): UserEntity?
+    fun getUser(login: String?): UserEntity?
 
     @Query("SELECT * FROM UserEntity")
     fun getAllUsers(): List<UserEntity>
@@ -26,5 +26,5 @@ interface UserDao {
     fun userLogin(login: String, isAuthorized: Boolean = true)
 
     @Query("UPDATE UserEntity SET isAuthorized = :isAuthorized WHERE userLogin =:login")
-    fun userLogout(login: String, isAuthorized: Boolean = false)
+    fun userLogout(login: String?, isAuthorized: Boolean = false)
 }
