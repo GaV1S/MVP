@@ -11,16 +11,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MVP_Login_Activity">
         <activity
-            android:name=".ui.MainActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.login.LoginActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.registration.RegistrationActivity"
+            android:exported="false">
         </activity>
     </application>
 

@@ -1,4 +1,4 @@
-package ru.s1aks.mvp_login_activity.ui.uiutils
+package ru.s1aks.mvp_login_activity.ui.utils
 
 import android.content.Context
 import android.text.Editable

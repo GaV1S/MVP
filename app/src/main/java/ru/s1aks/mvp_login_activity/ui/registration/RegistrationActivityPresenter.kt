@@ -2,7 +2,6 @@ package ru.s1aks.mvp_login_activity.ui.registration
 
 import ru.s1aks.mvp_login_activity.R
 import ru.s1aks.mvp_login_activity.domain.interactor.registration.IUserRegistrationInteractor
-import ru.s1aks.mvp_login_activity.ui.uiutils.UiConstants
 
 class RegistrationActivityPresenter(private val userRegistrationInteractor: IUserRegistrationInteractor) :
     RegistrationActivityContract.RegistrationPresenter {
@@ -20,11 +19,11 @@ class RegistrationActivityPresenter(private val userRegistrationInteractor: IUse
             view.showProgress()
             userRegistrationInteractor.userRegistration(login, password) { response ->
                 when (response) {
-                    UiConstants.ResponseCodes.RESPONSE_SUCCESS.code -> {
+                    ResponseCodes.RESPONSE_SUCCESS.code -> {
                         view.hideProgress()
                         view.setRegistrationSuccess(login)
                     }
-                    UiConstants.ResponseCodes.RESPONSE_LOGIN_REGISTERED_YET.code -> {
+                    ResponseCodes.RESPONSE_LOGIN_REGISTERED_YET.code -> {
                         view.hideProgress()
                         view.setRegistrationError(
                             (view as RegistrationActivity).getString(
@@ -37,4 +36,9 @@ class RegistrationActivityPresenter(private val userRegistrationInteractor: IUse
             }
         }
     }
+}
+
+private enum class ResponseCodes(val code: Int) {
+    RESPONSE_SUCCESS(200),
+    RESPONSE_LOGIN_REGISTERED_YET(444)
 }

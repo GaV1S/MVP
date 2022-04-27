@@ -6,8 +6,8 @@ import java.util.*
 
 @Entity
 data class UserEntity(
-    @PrimaryKey
-    val userId: String = UUID.randomUUID().toString(),
+    @PrimaryKey(autoGenerate = true)
+    val userId: Int = 0,
     val userLogin: String,
     val userPassword: String,
     val isAuthorized: Boolean = false

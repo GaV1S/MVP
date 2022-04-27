@@ -5,8 +5,10 @@
       <map>
         <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/drawable/ic_lock.xml" value="0.14" />
         <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/drawable/ic_userface.xml" value="0.14" />
+        <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/layout/activity_login.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/layout/activity_registration.xml" value="0.1" />
         <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/layout/admin_layot.xml" value="0.1" />
+        <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/layout/admin_layout.xml" value="0.1" />
       </map>
     </option>
   </component>

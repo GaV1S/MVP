@@ -9,8 +9,8 @@ import androidx.core.view.isVisible
 import ru.s1aks.mvp_login_activity.App
 import ru.s1aks.mvp_login_activity.databinding.ActivityRegistrationBinding
 import ru.s1aks.mvp_login_activity.ui.login.LoginActivity
-import ru.s1aks.mvp_login_activity.ui.uiutils.hideKeyboard
-import ru.s1aks.mvp_login_activity.ui.uiutils.showSnack
+import ru.s1aks.mvp_login_activity.ui.utils.hideKeyboard
+import ru.s1aks.mvp_login_activity.ui.utils.showSnack
 
 class RegistrationActivity : AppCompatActivity(), RegistrationActivityContract.RegistrationView {
     private lateinit var binding: ActivityRegistrationBinding

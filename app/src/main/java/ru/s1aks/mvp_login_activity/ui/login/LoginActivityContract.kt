@@ -1,26 +1,25 @@
 package ru.s1aks.mvp_login_activity.ui.login
 
-class LoginActivityContract {
-    interface LoginView {
-        fun hideProgress()
-        fun receiveUser(login: String, password: String, id: String)
-        fun setLoginSuccess(login: String)
-        fun setAdminLoginSuccess()
-        fun setLogout()
-        fun showMessage(message: String)
-        fun showProgress()
-        fun showRemindedPassword(remindedPassword: String)
-        fun showUserList(userList: String)
-    }
+import ru.s1aks.mvp_login_activity.data.db.UserEntity
+import ru.s1aks.mvp_login_activity.ui.utils.Publisher
 
-    interface LoginPresenter {
-        fun onAttach(mView: LoginView)
+interface LoginActivityContract {
+
+    interface LoginViewModel {
+
+        val showProgress : Publisher<Boolean>
+        val isLoginSuccess : Publisher<String>
+        val isLogout : Publisher<Boolean>
+        val receivedUser : Publisher<UserEntity>
+        val receivedUserList : Publisher<String>
+        val messenger : Publisher<String>
+
         fun onDeleteUser(login: String)
         fun onGetUser(login: String)
         fun onGetUserList()
         fun onLogin(login: String, password: String)
         fun onLogout()
         fun onPasswordRemind(login: String)
-        fun onUpdateUser(userId: String, login: String, password: String)
+        fun onUpdateUser(userId: Int, login: String, password: String)
     }
 }

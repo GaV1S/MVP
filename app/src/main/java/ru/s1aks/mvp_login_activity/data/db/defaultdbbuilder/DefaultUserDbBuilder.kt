@@ -2,8 +2,6 @@ package ru.s1aks.mvp_login_activity.data.db.defaultdbbuilder
 
 import ru.s1aks.mvp_login_activity.data.db.UserDao
 import ru.s1aks.mvp_login_activity.data.db.UserEntity
-import ru.s1aks.mvp_login_activity.data.utils.MockDatabaseConstants
-import java.util.*
 
 class DefaultUserDbBuilder(private val roomDataSource: UserDao) {
     fun initDefaultUserDataBase() {
@@ -12,9 +10,8 @@ class DefaultUserDbBuilder(private val roomDataSource: UserDao) {
                 0 -> {
                     roomDataSource.createUser(
                         UserEntity(
-                            UUID.randomUUID().toString(),
-                            MockDatabaseConstants.DefaultUsers.DEFAULT_ADMIN_LOGIN.value,
-                            MockDatabaseConstants.DefaultUsers.DEFAULT_ADMIN_PASSWORD.value
+                            userLogin = DefaultUsers.DEFAULT_ADMIN_LOGIN.value,
+                            userPassword = DefaultUsers.DEFAULT_ADMIN_PASSWORD.value
                         )
                     )
                 }
@@ -22,13 +19,19 @@ class DefaultUserDbBuilder(private val roomDataSource: UserDao) {
                 in 1..9 -> {
                     roomDataSource.createUser(
                         UserEntity(
-                            UUID.randomUUID().toString(),
-                            MockDatabaseConstants.DefaultUsers.DEFAULT_USER_LOGIN.value + i,
-                            MockDatabaseConstants.DefaultUsers.DEFAULT_USER_PASSWORD.value + i
+                            userLogin = DefaultUsers.DEFAULT_USER_LOGIN.value + i,
+                            userPassword = DefaultUsers.DEFAULT_USER_PASSWORD.value + i
                         )
                     )
                 }
             }
         }
     }
+}
+
+private enum class DefaultUsers(val value: String) {
+    DEFAULT_ADMIN_LOGIN("admin"),
+    DEFAULT_ADMIN_PASSWORD("admin"),
+    DEFAULT_USER_LOGIN("User_"),
+    DEFAULT_USER_PASSWORD("pass")
 }

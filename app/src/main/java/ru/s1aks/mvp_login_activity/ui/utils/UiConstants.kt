@@ -1,4 +1,4 @@
-package ru.s1aks.mvp_login_activity.ui.uiutils
+package ru.s1aks.mvp_login_activity.ui.utils
 
 class UiConstants {
     enum class DefaultUsersParams(val value: String) {
