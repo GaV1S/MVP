@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="11" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/drawable/ic_lock.xml" value="0.14" />
+        <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/drawable/ic_userface.xml" value="0.14" />
+        <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/layout/activity_login.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/layout/activity_registration.xml" value="0.1" />
+        <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/layout/admin_layot.xml" value="0.1" />
+        <entry key="..\:/Users/Purum/AndroidStudioProjects/mvp_login_activity/app/src/main/res/layout/admin_layout.xml" value="0.1" />
+      </map>
+    </option>
   </component>
-  <component name="ProjectType">
-    <option name="id" value="Android" />
-  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

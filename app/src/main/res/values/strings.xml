@@ -1,3 +1,34 @@
 <resources>
-    <string name="app_name">mvp_login_activity</string>
+    <string name="app_name">DecomposeMe</string>
+    <string name="password">Пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="login">Логин</string>
+    <string name="new_login">Новый логин</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="btn_forgot_password_text">Забыли пароль?</string>
+    <string name="registration">Регистрация</string>
+    <string name="invalid_password">Неверный пароль</string>
+    <string name="login_can_not_be_blank">Введите логин</string>
+    <string name="you_have_to_load_data">Сначала загрузите данные</string>
+    <string name="login_not_registered">Логин \"%1$s\" не зарегистрирован</string>
+    <string name="login_registered_yet">Логин \"%1$s\" уже зарегистрирован ранее</string>
+    <string name="hello_user">Добро пожаловать, %1$s!</string>
+    <string name="registration_success">Логин \"%1$s\" успешно зарегистрирован!</string>
+    <string name="reminded_password">Пароль: %1$s</string>
+    <string name="enter_account">Вход в аккаунт</string>
+    <string name="btn_account_exit">Выйти</string>
+    <string name="show_user_list">Показать\nсписок пользователей</string>
+    <string name="empty_text">""</string>
+    <string name="admin_user_update_text">Редактировать\nданные пользователя</string>
+    <string name="admin_updating_user_login">Логин редактируемого пользователя</string>
+    <string name="admin_get_user_button_text">Загрузить данные</string>
+    <string name="admin_save_user_changes_button_text">Сохранить изменения</string>
+    <string name="admin_delete_user_button_text">Удалить пользователя</string>
+    <string name="database_error">Ошибка доступа к базе данных</string>
+    <string name="login_deleted_successful">\"%1$s\" удален</string>
+    <string name="forbidden_to_delete_admin">Нельзя удалить \"%1$s\"</string>
+    <string name="forbidden_to_update_admin">Нельзя редактировать \"%1$s\"</string>
+    <string name="login_updated_successful">Логин \"%1$s\" обновлен</string>
+    <string name="password_can_not_be_blank">Пароль не может быть пустым</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>
