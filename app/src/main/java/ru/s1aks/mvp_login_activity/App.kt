@@ -2,8 +2,6 @@ package ru.s1aks.mvp_login_activity
 
 import android.app.Application
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import ru.s1aks.mvp_login_activity.data.api.MockUserDatabaseApi
 import ru.s1aks.mvp_login_activity.data.db.UserDatabase
 import ru.s1aks.mvp_login_activity.data.interactor.login.MockUserLoginInteractor
@@ -27,7 +25,6 @@ class App : Application() {
         companion object {
                 private lateinit var applicationInstance: App
                 private lateinit var appContext: Context
-                private val uiHandler = Handler(Looper.getMainLooper())
 
                 private val userDatabase: UserDatabase by lazy {
                         UserDatabase.getUserDatabase(appContext)
@@ -38,14 +35,14 @@ class App : Application() {
                 }
 
                 val userRepository: IUserDatabaseRepository by lazy {
-                        MockUserDatabaseRepository(userDatabase.userDao(), uiHandler)
+                        MockUserDatabaseRepository(userDatabase.userDao())
                 }
 
                 val userLoginInteractor: IUserLoginInteractor by lazy {
-                        MockUserLoginInteractor(userDatabaseApi, uiHandler)
+                        MockUserLoginInteractor(userDatabaseApi)
                 }
                 val userRemindPasswordInteractor: IRemindPasswordInteractor by lazy {
-                        MockRemindPasswordInteractor(userDatabaseApi, uiHandler)
+                        MockRemindPasswordInteractor(userDatabaseApi)
                 }
                 val userRegistrationInteractor: IUserRegistrationInteractor by lazy {
                         MockUserRegistrationInteractor(userRepository)

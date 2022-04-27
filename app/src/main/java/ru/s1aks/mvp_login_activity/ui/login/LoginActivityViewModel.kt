@@ -15,45 +15,42 @@ class LoginActivityViewModel(
 ) :
     LoginActivityContract.LoginViewModel {
 
-    private var isLoginSuccessFlag = false
     private lateinit var currentLogin: String
+    private var isAppStart = true
 
-    init {
-        checkIsLoginSuccess()
-    }
+    override val showProgress: Publisher<Boolean> = Publisher()
+
+    override val isLoginSuccess: Publisher<String> = Publisher()
+
+    override val isLogout: Publisher<Boolean> = Publisher()
+
+    override val receivedUser: Publisher<UserEntity> = Publisher()
+
+    override val receivedUserList: Publisher<String> = Publisher()
+
+    override val messenger: Publisher<String> = Publisher()
 
 
-//    override fun onAttach(mView: LoginActivityContract.LoginView) {
-//        view = mView
-//
-//        if (!isFirstAttach) {
-//            checkIsLoginSuccess()
-//        } else {
-//            showProgress.post(true)
-//            userRepository.getAllUsers { userList ->
-//                for (user in userList) {
-//                    if (user.isAuthorized) {
-//                        isLoginSuccessFlag = true
-//                        currentLogin = user.userLogin
-//                        break
-//                    }
-//                }
-//                checkIsLoginSuccess()
-//                showProgress.post(false)
-//            }
-//            isFirstAttach = false
-//        }
-//    }
-
-    private fun checkIsLoginSuccess() {
-        if (isLoginSuccessFlag) {
-            isLoginSuccess.post(currentLogin)
+    override fun onCheckOnAppStartAuthorization() {
+        if (isAppStart) {
+            showProgress.post(true)
+            userRepository.getAllUsers { userList ->
+                for(user in userList) {
+                    if (user.isAuthorized) {
+                        isLoginSuccess.post(user.userLogin)
+                        currentLogin = user.userLogin
+                        break
+                    }
+                }
+                showProgress.post(false)
+                isAppStart = false
+            }
         }
     }
 
     override fun onLogin(login: String, password: String) {
         if (login.isBlank()) {
-            messenger.post("getRe.getString(R.string.login_can_not_be_blank)")
+            messenger.post(MessageSource.LOGIN_CANNOT_BE_BLANK.message)
         } else {
             showProgress.post(true)
             userLoginInteractor.login(login, password) { response ->
@@ -61,18 +58,17 @@ class LoginActivityViewModel(
                     ResponseCodes.RESPONSE_SUCCESS.code -> {
                         showProgress.post(false)
                         isLoginSuccess.post(login)
-                        isLoginSuccessFlag = true
                         currentLogin = login
                     }
 
                     ResponseCodes.RESPONSE_LOGIN_NOT_REGISTERED.code -> {
                         showProgress.post(false)
-                        messenger.post("Логин не зарегистрирован")
+                        messenger.post(MessageSource.LOGIN_NOT_REGISTERED.message)
                     }
 
                     ResponseCodes.RESPONSE_INVALID_PASSWORD.code -> {
                         showProgress.post(false)
-                        messenger.post("Неверный пароль")
+                        messenger.post(MessageSource.INVALID_PASSWORD.message)
                     }
                 }
             }
@@ -85,12 +81,11 @@ class LoginActivityViewModel(
             when (response) {
                 ResponseCodes.RESPONSE_LOGIN_NOT_REGISTERED.code -> {
                     showProgress.post(false)
-                    messenger.post("Логин не зарегистрирован")
+                    messenger.post(MessageSource.LOGIN_NOT_REGISTERED.message)
                 }
 
                 ResponseCodes.RESPONSE_SUCCESS.code -> {
                     isLogout.post(true)
-                    isLoginSuccessFlag = false
                     currentLogin = ""
                     showProgress.post(false)
                 }
@@ -100,7 +95,7 @@ class LoginActivityViewModel(
 
     override fun onPasswordRemind(login: String) {
         if (login.isBlank()) {
-            messenger.post("getRe.getString(R.string.login_can_not_be_blank)")
+            messenger.post(MessageSource.LOGIN_CANNOT_BE_BLANK.message)
         } else {
             showProgress.post(true)
             userRemindPasswordInteractor.remindUserPassword(login) { response ->
@@ -112,12 +107,12 @@ class LoginActivityViewModel(
 
     override fun onGetUser(login: String) {
         if (login.isBlank()) {
-            messenger.post("getRe.getString(R.string.login_can_not_be_blank)")
+            messenger.post(MessageSource.LOGIN_CANNOT_BE_BLANK.message)
         } else {
             showProgress.post(true)
             userRepository.getUser(login) { user ->
                 if (user == null) {
-                    messenger.post("Логин не зарегистрирован")
+                    messenger.post(MessageSource.LOGIN_NOT_REGISTERED.message)
                     showProgress.post(false)
                 } else {
                     receivedUser.post(user)
@@ -150,27 +145,14 @@ class LoginActivityViewModel(
         }
     }
 
-    override val showProgress: Publisher<Boolean> = Publisher()
-
-    override val isLoginSuccess: Publisher<String> = Publisher()
-
-    override val isLogout: Publisher<Boolean> = Publisher()
-
-    override val receivedUser: Publisher<UserEntity> = Publisher()
-
-    override val receivedUserList: Publisher<String> = Publisher()
-
-    override val messenger: Publisher<String> = Publisher()
-
-
     override fun onDeleteUser(login: String) {
         when {
             login.isBlank() -> {
-                messenger.post("getRe.getString(R.string.login_can_not_be_blank)")
+                messenger.post(MessageSource.LOGIN_CANNOT_BE_BLANK.message)
             }
 
             login == DEFAULT_ADMIN_LOGIN -> {
-                messenger.post("Невозможно удалить \"${DEFAULT_ADMIN_LOGIN}\"")
+                messenger.post(MessageSource.FORBIDDEN_TO_DELETE.message)
             }
 
             else -> {
@@ -178,16 +160,16 @@ class LoginActivityViewModel(
                 userRepository.deleteUser(login) { response ->
                     when (response) {
                         ResponseCodes.RESPONSE_LOGIN_NOT_REGISTERED.code -> {
-                            messenger.post("Логин не зарегистрирован")
+                            messenger.post(MessageSource.LOGIN_NOT_REGISTERED.message)
                             showProgress.post(false)
                         }
                         ResponseCodes.RESPONSE_SUCCESS.code -> {
                             onGetUserList()
-                            messenger.post("Логин удален")
+                            messenger.post(MessageSource.ACCOUNT_DELETED.message)
                             showProgress.post(false)
                         }
                         ResponseCodes.RESPONSE_USER_DELETE_FAILED.code -> {
-                            messenger.post("Ошибка доступа к базе данных")
+                            messenger.post(MessageSource.DATABASE_ACCESS_FAILED.message)
                             showProgress.post(false)
                         }
                     }
@@ -199,19 +181,19 @@ class LoginActivityViewModel(
     override fun onUpdateUser(userId: Int, login: String, password: String) {
         when {
             userId.toString().isBlank() -> {
-                messenger.post("Необходимо загрузить данные")
+                messenger.post(MessageSource.YOU_HAVE_TO_LOAD_USER_DATA.message)
             }
 
             login.isBlank() -> {
-                messenger.post("getRe.getString(R.string.login_can_not_be_blank)")
+                messenger.post(MessageSource.LOGIN_CANNOT_BE_BLANK.message)
             }
 
             password.isBlank() -> {
-                messenger.post("Пароль не может быть пустым")
+                messenger.post(MessageSource.PASSWORD_CANNOT_BE_BLANK.message)
             }
 
             login == DEFAULT_ADMIN_LOGIN -> {
-                messenger.post("Невозможно редактировать \"${DEFAULT_ADMIN_LOGIN}\"")
+                messenger.post(MessageSource.FORBIDDEN_TO_UPDATE.message)
             }
 
             else -> {
@@ -220,12 +202,12 @@ class LoginActivityViewModel(
                     when (response) {
                         ResponseCodes.RESPONSE_SUCCESS.code -> {
                             onGetUserList()
-                            messenger.post("Учетная запись обновлена")
+                            messenger.post(MessageSource.ACCOUNT_UPDATED.message)
                             receivedUser.post(UserEntity(userId, login, password))
                             showProgress.post(false)
                         }
                         ResponseCodes.RESPONSE_USER_UPDATE_FAILED.code -> {
-                            messenger.post("Ошибка доступа к базе данных")
+                            messenger.post(MessageSource.DATABASE_ACCESS_FAILED.message)
                             showProgress.post(false)
                         }
                     }
@@ -241,4 +223,17 @@ private enum class ResponseCodes(val code: Int) {
     RESPONSE_LOGIN_NOT_REGISTERED(404),
     RESPONSE_USER_UPDATE_FAILED(454),
     RESPONSE_USER_DELETE_FAILED(464)
+}
+
+private enum class MessageSource(val message: String) {
+    ACCOUNT_UPDATED("Учетная запись обновлена"),
+    DATABASE_ACCESS_FAILED("Ошибка доступа к базе данных"),
+    FORBIDDEN_TO_UPDATE("Невозможно редактировать \"${DEFAULT_ADMIN_LOGIN}\""),
+    FORBIDDEN_TO_DELETE("Невозможно удалить \"${DEFAULT_ADMIN_LOGIN}\""),
+    PASSWORD_CANNOT_BE_BLANK("Пароль не может быть пустым"),
+    INVALID_PASSWORD("Неверный пароль"),
+    LOGIN_CANNOT_BE_BLANK("Логин не может быть пустым"),
+    LOGIN_NOT_REGISTERED("Логин не зарегистрирован"),
+    ACCOUNT_DELETED("Учетная запись удалена"),
+    YOU_HAVE_TO_LOAD_USER_DATA("Необходимо загрузить данные")
 }

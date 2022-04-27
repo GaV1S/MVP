@@ -16,7 +16,7 @@ import ru.s1aks.mvp_login_activity.ui.utils.showSnack
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private var loginViewModel: LoginActivityContract.LoginViewModel? = null
-    private val uiHandler = Handler(mainLooper)
+    private val uiHandler: Handler by lazy { Handler(mainLooper) }
 
     companion object {
         const val EXTRA_LOGIN_REGISTRATION_SUCCESS = "EXTRA_LOGIN_SUCCESS"
@@ -26,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         loginViewModel = restoreViewModel()
 
         loginViewModel?.receivedUser?.subscribe(uiHandler) { user ->
@@ -71,6 +72,8 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        loginViewModel?.onCheckOnAppStartAuthorization()
+
         val registrationActivityIntent = Intent(this, RegistrationActivity::class.java)
 
         with(binding) {
@@ -80,8 +83,6 @@ class LoginActivity : AppCompatActivity() {
                 root.showSnack(getString(R.string.registration_success, registeredLogin))
                 intent.removeExtra(EXTRA_LOGIN_REGISTRATION_SUCCESS)
             }
-
-
 
             registrationButton.setOnClickListener {
                 startActivity(registrationActivityIntent)

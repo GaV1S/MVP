@@ -14,6 +14,7 @@ interface LoginActivityContract {
         val receivedUserList : Publisher<String>
         val messenger : Publisher<String>
 
+        fun onCheckOnAppStartAuthorization()
         fun onDeleteUser(login: String)
         fun onGetUser(login: String)
         fun onGetUserList()
